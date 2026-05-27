@@ -1,357 +1,638 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FutureTech Solutions — Mohd Wali Khan</title>
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --neon-cyan: #00f5ff; --neon-purple: #bf00ff; --neon-pink: #ff00aa;
-      --neon-green: #00ff88; --bg-dark: #000000; --bg-card: #080c14;
-      --bg-glass: rgba(0,245,255,0.04); --border-glow: rgba(0,245,255,0.18);
-      --text-primary: #e8f4f8; --text-muted: #6a8a9a;
-    }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg-dark); color: var(--text-primary); font-family: 'Segoe UI','Helvetica Neue',Arial,sans-serif; overflow-x: hidden; line-height: 1.6; }
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: #000; }
-    ::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 3px; }
-
-    /* BACKGROUND */
-    .grid-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; background-image: linear-gradient(rgba(0,245,255,0.035) 1px,transparent 1px), linear-gradient(90deg,rgba(0,245,255,0.035) 1px,transparent 1px); background-size: 64px 64px; animation: gridShift 18s linear infinite; }
-    @keyframes gridShift { 0% { background-position: 0 0; } 100% { background-position: 64px 64px; } }
-    .glow-orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(130px); }
-    .glow-1 { width: 700px; height: 700px; background: radial-gradient(circle,rgba(0,245,255,0.07) 0%,transparent 70%); top: -250px; left: -250px; animation: float1 12s ease-in-out infinite alternate; }
-    .glow-2 { width: 600px; height: 600px; background: radial-gradient(circle,rgba(191,0,255,0.07) 0%,transparent 70%); bottom: -250px; right: -250px; animation: float2 15s ease-in-out infinite alternate; }
-    .glow-3 { width: 500px; height: 500px; background: radial-gradient(circle,rgba(0,255,136,0.04) 0%,transparent 70%); top: 40%; left: 40%; transform: translate(-50%,-50%); animation: float1 20s ease-in-out infinite alternate-reverse; }
-    @keyframes float1 { from { transform: translate(0,0); } to { transform: translate(50px,40px); } }
-    @keyframes float2 { from { transform: translate(0,0); } to { transform: translate(-40px,-50px); } }
-
-    /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 64px; background: rgba(0,0,0,0.65); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(0,245,255,0.08); transition: padding 0.35s ease,background 0.35s ease; }
-    .nav-logo { font-size: 1.2rem; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; background: linear-gradient(90deg,var(--neon-cyan),var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .nav-links { display: flex; gap: 38px; list-style: none; }
-    .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.78rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; position: relative; transition: color 0.3s; }
-    .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 1px; background: var(--neon-cyan); box-shadow: 0 0 8px var(--neon-cyan); transition: width 0.3s ease; }
-    .nav-links a:hover { color: var(--neon-cyan); }
-    .nav-links a:hover::after { width: 100%; }
-
-    /* HERO */
-    #hero { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 130px 40px 100px; overflow: hidden; }
-    .hero-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 0.68rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--neon-cyan); border: 1px solid rgba(0,245,255,0.25); padding: 7px 22px; border-radius: 100px; margin-bottom: 36px; background: rgba(0,245,255,0.05); animation: fadeDown 0.9s ease both; }
-    .badge-dot { width: 6px; height: 6px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--neon-cyan); animation: dotBlink 2s ease-in-out infinite; }
-    @keyframes dotBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
-    @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-    .hero-title { font-size: clamp(3.2rem,9vw,7.5rem); font-weight: 900; line-height: 1.02; letter-spacing: -3px; margin-bottom: 16px; animation: fadeUp 1s 0.2s ease both; }
-    .t1 { display: block; color: #fff; }
-    .t2 { display: block; background: linear-gradient(135deg,var(--neon-cyan) 0%,var(--neon-purple) 55%,var(--neon-pink) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: titleGlow 4s ease-in-out infinite alternate; }
-    @keyframes titleGlow { from { filter: drop-shadow(0 0 24px rgba(0,245,255,0.35)); } to { filter: drop-shadow(0 0 60px rgba(191,0,255,0.55)); } }
-    .hero-owner { font-size: 1rem; letter-spacing: 4px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 28px; animation: fadeUp 1s 0.4s ease both; }
-    .hero-owner strong { color: var(--neon-cyan); font-weight: 700; }
-    .hero-desc { max-width: 600px; font-size: 1.1rem; color: #4a6a7a; line-height: 1.85; animation: fadeUp 1s 0.6s ease both; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .side-line { position: absolute; top: 50%; width: 1px; transform: translateY(-50%); background: linear-gradient(to bottom,transparent,var(--neon-cyan),transparent); animation: linePulse 3s ease-in-out infinite; }
-    .side-line-l { left: 60px; height: 200px; }
-    .side-line-r { right: 60px; height: 200px; background: linear-gradient(to bottom,transparent,var(--neon-purple),transparent); animation-delay: 1.5s; }
-    @keyframes linePulse { 0%,100% { opacity: 0.25; height: 180px; } 50% { opacity: 1; height: 240px; } }
-    .scroll-cue { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 10px; animation: fadeUp 1s 1.2s ease both; }
-    .scroll-label { font-size: 0.62rem; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); }
-    .scroll-mouse { width: 22px; height: 38px; border: 1px solid rgba(0,245,255,0.3); border-radius: 11px; display: flex; justify-content: center; padding-top: 6px; }
-    .scroll-wheel { width: 4px; height: 8px; background: var(--neon-cyan); border-radius: 2px; box-shadow: 0 0 6px var(--neon-cyan); animation: wheel 2.2s ease-in-out infinite; }
-    @keyframes wheel { 0%,100% { transform: translateY(0); opacity: 1; } 80% { transform: translateY(14px); opacity: 0; } }
-
-    /* SECTION BASE */
-    section { position: relative; z-index: 1; padding: 128px 64px; }
-    .inner { max-width: 1200px; margin: 0 auto; }
-    .sec-label { display: flex; align-items: center; gap: 14px; font-size: 0.68rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--neon-cyan); margin-bottom: 20px; }
-    .sec-label::before { content: ''; width: 32px; height: 1px; background: var(--neon-cyan); box-shadow: 0 0 8px var(--neon-cyan); }
-    .sec-title { font-size: clamp(2rem,4vw,3.4rem); font-weight: 800; line-height: 1.12; letter-spacing: -1.5px; color: #fff; margin-bottom: 20px; }
-    .sec-title em { font-style: normal; background: linear-gradient(90deg,var(--neon-cyan),var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .sec-desc { font-size: 1.05rem; color: var(--text-muted); max-width: 550px; line-height: 1.85; }
-    .divider { position: relative; z-index: 1; width: 100%; height: 1px; background: linear-gradient(90deg,transparent,rgba(0,245,255,0.12),rgba(191,0,255,0.12),transparent); }
-
-    /* ABOUT */
-    #about { background: linear-gradient(180deg,transparent,rgba(0,245,255,0.02),transparent); }
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
-    .stat { background: var(--bg-glass); border: 1px solid var(--border-glow); border-radius: 18px; padding: 28px 24px; text-align: center; position: relative; overflow: hidden; transition: transform 0.35s ease,border-color 0.35s ease,box-shadow 0.35s ease; }
-    .stat::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,transparent,var(--neon-cyan),transparent); opacity: 0; transition: opacity 0.35s; }
-    .stat:hover { transform: translateY(-6px); border-color: rgba(0,245,255,0.45); box-shadow: 0 20px 60px rgba(0,245,255,0.1); }
-    .stat:hover::before { opacity: 1; }
-    .stat-num { font-size: 2.6rem; font-weight: 900; line-height: 1; margin-bottom: 8px; background: linear-gradient(135deg,var(--neon-cyan),var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .stat-lbl { font-size: 0.7rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-muted); }
-    .rings { position: relative; display: flex; align-items: center; justify-content: center; height: 380px; }
-    .ring { position: absolute; border-radius: 50%; border: 1px solid; top: 50%; left: 50%; }
-    .ring-1 { width: 110px; height: 110px; border-color: rgba(0,245,255,0.55); transform: translate(-50%,-50%); animation: spin 7s linear infinite; }
-    .ring-2 { width: 210px; height: 210px; border-color: rgba(191,0,255,0.3); transform: translate(-50%,-50%); animation: spin 13s linear infinite reverse; }
-    .ring-3 { width: 310px; height: 310px; border-color: rgba(0,255,136,0.14); transform: translate(-50%,-50%); animation: spin 20s linear infinite; }
-    @keyframes spin { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
-    .ring-core { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 72px; height: 72px; border-radius: 50%; background: radial-gradient(circle,rgba(0,245,255,0.25),transparent); border: 2px solid var(--neon-cyan); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--neon-cyan); box-shadow: 0 0 40px rgba(0,245,255,0.4),inset 0 0 20px rgba(0,245,255,0.1); animation: corePulse 3.5s ease-in-out infinite; }
-    @keyframes corePulse { 0%,100% { box-shadow: 0 0 40px rgba(0,245,255,0.4),inset 0 0 20px rgba(0,245,255,0.1); } 50% { box-shadow: 0 0 80px rgba(0,245,255,0.7),inset 0 0 40px rgba(0,245,255,0.2); } }
-    .orbit-wrap { position: absolute; top: 50%; left: 50%; width: 210px; height: 210px; transform: translate(-50%,-50%); animation: spin 13s linear infinite; }
-    .o-dot { position: absolute; width: 9px; height: 9px; background: var(--neon-purple); border-radius: 50%; box-shadow: 0 0 10px var(--neon-purple); }
-    .o-dot-1 { top: -4px; left: 50%; transform: translateX(-50%); }
-    .o-dot-2 { bottom: -4px; left: 50%; transform: translateX(-50%); background: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan); }
-
-    /* SERVICES */
-    #services { background: rgba(191,0,255,0.015); }
-    .srv-head { margin-bottom: 64px; }
-    .srv-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
-    .srv-card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); border-radius: 22px; padding: 38px 30px; position: relative; overflow: hidden; transition: transform 0.4s ease,border-color 0.4s ease,box-shadow 0.4s ease; cursor: default; }
-    .srv-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%,rgba(0,245,255,0.07) 0%,transparent 60%); opacity: 0; transition: opacity 0.4s; }
-    .srv-card:hover { transform: translateY(-10px); border-color: rgba(0,245,255,0.22); box-shadow: 0 32px 80px rgba(0,0,0,0.55),0 0 0 1px rgba(0,245,255,0.08),inset 0 1px 0 rgba(255,255,255,0.06); }
-    .srv-card:hover::after { opacity: 1; }
-    .srv-icon { width: 54px; height: 54px; border-radius: 14px; margin-bottom: 22px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; position: relative; z-index: 1; transition: transform 0.35s ease; }
-    .srv-card:hover .srv-icon { transform: scale(1.1) rotate(5deg); }
-    .ic-cyan   { background: rgba(0,245,255,0.1); border: 1px solid rgba(0,245,255,0.3); box-shadow: 0 0 20px rgba(0,245,255,0.12); }
-    .ic-purple { background: rgba(191,0,255,0.1); border: 1px solid rgba(191,0,255,0.3); box-shadow: 0 0 20px rgba(191,0,255,0.12); }
-    .ic-green  { background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.3); box-shadow: 0 0 20px rgba(0,255,136,0.12); }
-    .ic-pink   { background: rgba(255,0,170,0.1); border: 1px solid rgba(255,0,170,0.3); box-shadow: 0 0 20px rgba(255,0,170,0.12); }
-    .ic-blue   { background: rgba(0,150,255,0.1); border: 1px solid rgba(0,150,255,0.3); box-shadow: 0 0 20px rgba(0,150,255,0.12); }
-    .ic-gold   { background: rgba(255,190,0,0.1); border: 1px solid rgba(255,190,0,0.3); box-shadow: 0 0 20px rgba(255,190,0,0.12); }
-    .srv-name { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 12px; position: relative; z-index: 1; }
-    .srv-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.78; position: relative; z-index: 1; }
-    .srv-tag { display: inline-block; margin-top: 18px; font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; position: relative; z-index: 1; }
-    .t-cyan   { color: var(--neon-cyan);   background: rgba(0,245,255,0.07); border: 1px solid rgba(0,245,255,0.2); }
-    .t-purple { color: var(--neon-purple); background: rgba(191,0,255,0.07); border: 1px solid rgba(191,0,255,0.2); }
-    .t-green  { color: var(--neon-green);  background: rgba(0,255,136,0.07); border: 1px solid rgba(0,255,136,0.2); }
-    .t-pink   { color: var(--neon-pink);   background: rgba(255,0,170,0.07); border: 1px solid rgba(255,0,170,0.2); }
-    .t-blue   { color: #0096ff;            background: rgba(0,150,255,0.07); border: 1px solid rgba(0,150,255,0.2); }
-    .t-gold   { color: #ffbe00;            background: rgba(255,190,0,0.07); border: 1px solid rgba(255,190,0,0.2); }
-
-    /* AI SECTION */
-    #ai { background: linear-gradient(180deg,transparent,rgba(191,0,255,0.025),transparent); }
-    .ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .terminal { background: #030810; border: 1px solid rgba(0,245,255,0.14); border-radius: 18px; overflow: hidden; box-shadow: 0 32px 100px rgba(0,0,0,0.7),0 0 0 1px rgba(0,245,255,0.04); }
-    .t-bar { background: rgba(255,255,255,0.03); padding: 12px 20px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-    .td { width: 10px; height: 10px; border-radius: 50%; }
-    .td-r { background: #ff5f57; } .td-y { background: #ffbd2e; } .td-g { background: #28c840; }
-    .t-title { margin-left: 8px; font-size: 0.72rem; color: rgba(255,255,255,0.28); letter-spacing: 1px; }
-    .t-body { padding: 24px 22px; font-family: 'Courier New',monospace; font-size: 0.82rem; line-height: 2.1; }
-    .t-prompt { color: var(--neon-cyan); } .t-cmd { color: #e8f4f8; } .t-out { color: rgba(255,255,255,0.35); }
-    .t-ok { color: var(--neon-green); } .t-hi { color: var(--neon-purple); }
-    .t-cursor { display: inline-block; width: 8px; height: 14px; background: var(--neon-cyan); vertical-align: middle; animation: blink 1s step-end infinite; }
-    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
-    .ai-feats { margin-top: 36px; display: flex; flex-direction: column; gap: 14px; }
-    .ai-feat { display: flex; align-items: flex-start; gap: 16px; padding: 18px 20px; border: 1px solid rgba(255,255,255,0.055); border-radius: 14px; background: rgba(255,255,255,0.018); transition: border-color 0.3s,background 0.3s; }
-    .ai-feat:hover { border-color: rgba(0,245,255,0.2); background: rgba(0,245,255,0.03); }
-    .ai-feat-ic { width: 36px; height: 36px; min-width: 36px; background: rgba(0,245,255,0.1); border: 1px solid rgba(0,245,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
-    .ai-feat-text strong { display: block; font-size: 0.9rem; color: #fff; margin-bottom: 4px; }
-    .ai-feat-text span { font-size: 0.82rem; color: var(--text-muted); }
-
-    /* CONTACT */
-    #contact { background: linear-gradient(180deg,transparent,rgba(0,245,255,0.02)); }
-    .contact-wrap { max-width: 920px; margin: 0 auto; text-align: center; }
-    .c-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; margin-top: 60px; }
-    .c-card { background: var(--bg-glass); border: 1px solid rgba(0,245,255,0.1); border-radius: 22px; padding: 38px 28px; transition: transform 0.35s ease,border-color 0.35s ease,box-shadow 0.35s ease; }
-    .c-card:hover { transform: translateY(-8px); border-color: rgba(0,245,255,0.3); box-shadow: 0 28px 70px rgba(0,0,0,0.45),0 0 40px rgba(0,245,255,0.07); }
-    .c-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
-    .c-type { font-size: 0.68rem; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
-    .c-val { font-size: 0.95rem; font-weight: 600; color: var(--neon-cyan); }
-
-    /* FOOTER */
-    footer { position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,0.05); padding: 38px 64px; display: flex; align-items: center; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); }
-    .foot-brand { font-size: 1rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; background: linear-gradient(90deg,var(--neon-cyan),var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-
-    /* REVEAL */
-    .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.85s ease,transform 0.85s ease; }
-    .reveal.on { opacity: 1; transform: translateY(0); }
-    .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; } .d4 { transition-delay: 0.4s; } .d5 { transition-delay: 0.5s; }
-
-    /* RESPONSIVE */
-    @media (max-width: 960px) {
-      nav { padding: 16px 28px; } section { padding: 88px 28px; }
-      .about-grid, .ai-grid { grid-template-columns: 1fr; gap: 52px; }
-      .srv-grid { grid-template-columns: 1fr; } .c-grid { grid-template-columns: 1fr; }
-      footer { flex-direction: column; gap: 12px; text-align: center; padding: 30px 24px; }
-      .side-line { display: none; }
-    }
-    @media (max-width: 600px) {
-      .nav-links { display: none; } .stats { grid-template-columns: 1fr 1fr; }
-      .rings { height: 280px; } .ring-3 { width: 240px; height: 240px; } .ring-2 { width: 170px; height: 170px; }
-    .nav-logo img,
-#hero img {
-  background: transparent;
-  mix-blend-mode: lighten;
-}
-.nav-logo img {
-  border-radius: 50%;
-  object-fit: cover;
-}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Eid ul-Adha | The Festival of Sacrifice | Cinematic Luxury Experience</title>
+    <!-- Google Fonts: Elegant English & Arabic -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;500;600&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.0.45/dist/lenis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #070707;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            color: #e6e6e6;
+        }
+        .arabic-font {
+            font-family: 'Amiri', 'Scheherazade New', serif;
+        }
+        .gold-text {
+            background: linear-gradient(135deg, #d4a94d, #f5d77e, #b67f2e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .glass-card {
+            background: rgba(10, 10, 15, 0.55);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(212, 169, 77, 0.3);
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -15px rgba(0,0,0,0.5), 0 0 15px rgba(212,169,77,0.1);
+            transition: all 0.3s ease;
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 28px rgba(212, 169, 77, 0.5);
+            border-color: rgba(212, 169, 77, 0.8);
+            transform: translateY(-5px);
+        }
+        .cursive-heading {
+            font-family: 'Cinzel', 'Playfair Display', serif;
+        }
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4a94d;
+            border-radius: 10px;
+        }
+        canvas#particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .mouse-glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(212,169,77,0.15) 0%, rgba(0,0,0,0) 70%);
+            pointer-events: none;
+            z-index: 20;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+        .lantern-float {
+            animation: floatGlow 5s infinite ease-in-out;
+        }
+        @keyframes floatGlow {
+            0% { transform: translateY(0px); filter: drop-shadow(0 0 5px #ffb74d);}
+            50% { transform: translateY(-20px); filter: drop-shadow(0 0 22px #ffb74d);}
+            100% { transform: translateY(0px); filter: drop-shadow(0 0 5px #ffb74d);}
+        }
+        .cinematic-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+        }
+        .cinematic-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .islamic-pattern-overlay {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' opacity='0.05'%3E%3Cpath fill='%23d4a94d' d='M50,10 L61,30 L83,35 L68,51 L72,73 L50,63 L28,73 L32,51 L17,35 L39,30 Z'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 70px;
+        }
+        .btn-gold {
+            background: linear-gradient(95deg, rgba(212,169,77,0.15) 0%, rgba(212,169,77,0.4) 100%);
+            border: 1.5px solid #d4a94d;
+            transition: 0.4s;
+        }
+        .btn-gold:hover {
+            background: rgba(212,169,77,0.6);
+            box-shadow: 0 0 18px #d4a94d;
+            transform: scale(1.03);
+        }
+        
+        /* Realistic Camel Caravan Container - no scroll blocking */
+        .camel-caravan-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            border-radius: 48px;
+            overflow: hidden;
+            margin: 60px 0;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.8);
+            background: linear-gradient(180deg, #1f180d 0%, #0e0b03 100%);
+            cursor: pointer;
+        }
+        #camelCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        .silk-glow {
+            text-shadow: 0 0 15px rgba(212,169,77,0.6);
+        }
+        .dua-card {
+            transition: all 0.5s ease;
+        }
+        .dua-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(212,169,77,0.3);
+        }
+        .premium-eid-card {
+            background: linear-gradient(145deg, #1f1a10 0%, #0b0802 100%);
+            border: 1px solid rgba(212,169,77,0.6);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .premium-eid-card:hover {
+            box-shadow: 0 30px 40px -20px rgba(212,169,77,0.4);
+            transform: translateY(-8px);
+        }
+        
+        /* Fix: Responsive and prevent overlap / cut-off */
+        @media (max-width: 768px) {
+            .camel-caravan-container { height: 280px; border-radius: 28px; margin: 30px 0; }
+            .glass-card { padding: 1.5rem; }
+            .text-5xl { font-size: 2rem; }
+            .text-7xl { font-size: 3rem; }
+            .py-28 { padding-top: 3rem; padding-bottom: 3rem; }
+            .py-32 { padding-top: 3rem; padding-bottom: 3rem; }
+            .container-fix { padding-left: 1rem; padding-right: 1rem; }
+            section { overflow-x: hidden; }
+            .premium-eid-card { padding: 1rem !important; }
+            #generatedCard .p-8 { padding: 1rem; }
+            #actualCardContent .text-5xl { font-size: 2rem; }
+            #actualCardContent .text-3xl { font-size: 1.5rem; }
+            .btn-gold { padding-left: 1.5rem; padding-right: 1.5rem; }
+        }
+        /* Additional fix for card download consistency */
+        #actualCardContent {
+            background: transparent;
+            min-width: 280px;
+            width: 100%;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(12deg); }
+            100% { transform: translateX(100%) rotate(12deg); }
+        }
+        #eidArabicText {
+            color:#f5d77e;
+            text-shadow: 0 0 10px rgba(212,169,77,0.7), 0 0 20px rgba(212,169,77,0.5);
+            font-family:'Amiri','Scheherazade New',serif;
+            direction: rtl;
+        }
+    </style>
 </head>
-<body>
-  <div class="grid-bg"></div>
-  <div class="glow-orb glow-1"></div>
-  <div class="glow-orb glow-2"></div>
-  <div class="glow-orb glow-3"></div>
+<body class="overflow-x-hidden bg-black">
 
-  <nav id="nav">
-  <div class="nav-logo" style="display:flex; align-items:center; gap:10px;">
- <img src="logo.png" alt="logo" 
-style="height:35px; width:35px; border-radius:0%; object-fit:cover; box-shadow:0 0 10px #00f5ff;">
-  <span>NafeesTech</span>
-</div>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#ai">AI Design</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+    <div class="mouse-glow" id="mouseGlow"></div>
+    <canvas id="particleCanvas"></canvas>
 
-  <section id="hero">
-    <div class="side-line side-line-l"></div>
-    <div class="side-line side-line-r"></div>
-    <div class="hero-badge"><div class="badge-dot"></div>Next-Generation Technology</div>
-   <div style="margin-bottom:20px;">
- 
-</div>
-
-<h1 class="hero-title">
-  <span class="t1">NafeesTech</span>
-  <span class="t2">Developer</span>
-</h1>
-    <p class="hero-owner">Founded by <strong>Mohd Wali Khan</strong></p>
-    <p class="hero-desc"> Shaping digital horizons — where creative vision blends with smart innovation to build experiences that inspire tomorrow.</p>
-    <div class="scroll-cue">
-      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-      <span class="scroll-label">Scroll</span>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <section id="about">
-    <div class="inner">
-      <div class="about-grid">
-        <div>
-          <div class="sec-label reveal">About Us</div>
-          <h2 class="sec-title reveal d1">Develop  the <em>Future</em><br/>One Breakthrough at a Time</h2>
-          <p class="sec-desc reveal d2">At NafeesTech Developer, we operate at the intersection of artificial intelligence, advanced Graphics, and human-admire design. Our mission is to translate complex technological challenges into elegant, scalable Design that empower organizations to lead in an ever-accelerating world.</p>
-          <div class="stats">
-            <div class="stat reveal d2"><div class="stat-num">200+</div><div class="stat-lbl">Creative Projects Launched</div></div>
-            <div class="stat reveal d3"><div class="stat-num">98%</div><div class="stat-lbl"> Happy Clients Worldwide</div></div>
-            <div class="stat reveal d4"><div class="stat-num">100</div><div class="stat-lbl">Passion for Design & Tech</div></div>
-            <div class="stat reveal d5"><div class="stat-num">∞ </div><div class="stat-lbl"> Ideas, One Vision</div></div>
-          </div>
+    <!-- Loading Screen -->
+    <div id="loader" class="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-black transition-all duration-1000">
+        <div class="text-center">
+            <div class="arabic-font text-7xl gold-text mb-6 animate-pulse">﷽</div>
+            <div class="w-32 h-0.5 bg-gradient-to-r from-transparent via-[#d4a94d] to-transparent mb-6"></div>
+            <div class="text-[#d4a94d] tracking-[0.2em] text-sm font-light">THE FESTIVAL OF SACRIFICE</div>
+            <div class="mt-4 text-xs text-[#d4a94d]/70">Eid ul-Adha Mubarak</div>
         </div>
-        <div class="rings reveal d3">
-          <div class="ring ring-3"></div>
-          <div class="ring ring-2"></div>
-          <div class="ring ring-1"></div>
-          <div class="orbit-wrap">
-            <div class="o-dot o-dot-1"></div>
-            <div class="o-dot o-dot-2"></div>
-          </div>
-          <div class="ring-core">&#9670;</div>
+    </div>
+
+    <!-- Premium Sticky Navbar -->
+    <nav class="fixed top-0 w-full z-50 bg-black/30 backdrop-blur-xl border-b border-[#d4a94d]/30 py-4 px-6 md:px-12 transition-all duration-300">
+        <div class="flex justify-between items-center">
+            <div class="text-2xl md:text-3xl arabic-font gold-text tracking-wide">عيد الأضحى</div>
+            <div class="hidden md:flex gap-8 text-sm font-light tracking-wide"></div>
+            <div class="w-8 h-8 rounded-full bg-[#d4a94d]/20 border border-[#d4a94d] flex items-center justify-center text-xs">✨</div>
         </div>
-      </div>
-    </div>
-  </section>
+    </nav>
 
-  <div class="divider"></div>
-
-  <section id="services">
-    <div class="inner">
-      <div class="srv-head">
-        <div class="sec-label reveal">Our Services</div>
-        <h2 class="sec-title reveal d1">Capabilities Built for<br/><em>Transformative Scale</em></h2>
-        <p class="sec-desc reveal d2">A full-spectrum technology partner — from ideation and architecture to deployment and beyond.</p>
-      </div>
-      <div class="srv-grid">
-        <div class="srv-card reveal d1"><div class="srv-icon ic-cyan">&#129504;</div><div class="srv-name">Artificial Intelligence</div><div class="srv-desc">From intelligent design systems to smart websites, adaptive apps, and social media automation — every solution we craft is driven by AI innovation, making technology not just functional but visionary.</div><span class="srv-tag t-cyan">Core Offering</span></div>
-        <div class="srv-card reveal d2"><div class="srv-icon ic-purple">&#9729;</div><div class="srv-name"> Creative Design & Branding</div><div class="srv-desc">Turning imagination into identity — from logos to full-scale brand systems, we craft visuals that speak louder than words.</div><span class="srv-tag t-purple">Enterprise</span></div>
-        <div class="srv-card reveal d3"><div class="srv-icon ic-green">&#128200;</div><div class="srv-name">Website Development</div><div class="srv-desc">Building digital homes that inspire — sleek, responsive, and user-focused websites designed to engage and convert.</div><span class="srv-tag t-green">Analytics</span></div>
-        <div class="srv-card reveal d2"><div class="srv-icon ic-pink">&#128241;</div><div class="srv-name">App Innovation </div><div class="srv-desc">From concept to code — intuitive mobile and web apps that blend creativity with functionality to deliver seamless experiences.</div><span class="srv-tag t-pink">Full-Stack</span></div>
-        <div class="srv-card reveal d3"><div class="srv-icon ic-blue">&#128274;</div><div class="srv-name">Interactive Experience Design</div><div class="srv-desc">Crafting websites and apps that think — adaptive layouts, personalized journeys, and immersive digital experiences powered by AI.</div><span class="srv-tag t-blue">Security</span></div>
-        <div class="srv-card reveal d4"><div class="srv-icon ic-gold">&#9881;</div><div class="srv-name"> From concept to community — AI-driven storytelling that makes your brand unforgettable.</div><span class="srv-tag t-gold">Strategy</span></div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <section id="ai">
-    <div class="inner">
-      <div class="ai-grid">
-        <div class="reveal">
-          <div class="terminal">
-            <div class="t-bar"><div class="td td-r"></div><div class="td td-y"></div><div class="td td-g"></div><span class="t-title">futuretech.ai — model runtime v4.2</span></div>
-            <div class="t-body">
-              <div><span class="t-prompt">&#9656; </span><span class="t-cmd">initialize --model GPT-X-Turbo</span></div>
-              <div><span class="t-out">Loading neural weights............. done</span></div>
-              <div><span class="t-out">Context window (128k tokens) ready</span></div>
-              <div>&nbsp;</div>
-              <div><span class="t-prompt">&#9656; </span><span class="t-cmd">run --task design_generation</span></div>
-              <div><span class="t-out">Parsing visual tokens...</span></div>
-              <div><span class="t-out">Composing adaptive layout graph...</span></div>
-              <div><span class="t-ok">&#10003; Output rendered — 1.4s</span></div>
-              <div>&nbsp;</div>
-              <div><span class="t-prompt">&#9656; </span><span class="t-cmd">analyze --depth=full --brand=true</span></div>
-              <div><span class="t-hi">Insight: Design coherence score 97.4%</span></div>
-              <div><span class="t-ok">&#10003; Recommendation pipeline active</span></div>
-              <div>&nbsp;</div>
-              <div><span class="t-prompt">&#9656; </span><span class="t-cursor"></span></div>
+    <main class="relative z-10">
+        <!-- HERO SECTION -->
+        <section class="relative h-screen w-full overflow-hidden flex items-center justify-center text-center">
+            <div class="absolute inset-0 bg-gradient-to-b from-[#070707] via-[#1f1405]/80 to-[#0a0702] opacity-95"></div>
+            <div class="absolute inset-0 islamic-pattern-overlay opacity-20"></div>
+            <div class="relative z-30 max-w-5xl px-4">
+                <h1 class="text-4xl sm:text-5xl md:text-8xl font-bold cursive-heading gold-text tracking-tight">Eid ul-Adha Mubarak</h1>
+                <div class="arabic-font text-3xl sm:text-5xl md:text-7xl mt-5 gold-text opacity-95 drop-shadow-2xl">عيد الأضحى مبارك</div>
+                <p class="text-lg md:text-2xl mt-6 text-[#f2d6a2] font-light max-w-2xl mx-auto leading-relaxed">A celebration of sacrifice, faith, devotion, and boundless compassion.</p>
+                <button id="exploreBtn" class="mt-12 px-10 py-4 btn-gold rounded-full text-[#d4a94d] font-semibold tracking-wider transition-all duration-500 backdrop-blur-md text-lg">✨ Journey of Ibrahim ✨</button>
+                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer" id="scrollIndicator">
+                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#d4a94d" stroke-width="1.5"><path d="M12 5v14m0 0l-5-5m5 5l5-5"/></svg>
+                </div>
             </div>
-          </div>
-        </div>
-        <div>
-          <div class="sec-label reveal">AI-Powered Design</div>
-          <h2 class="sec-title reveal d1">Intelligence That<br/><em>Thinks in Design</em></h2>
-          <p class="sec-desc reveal d2">Our proprietary AI engine doesn't just generate — it understands context, brand language, and user psychology to produce outputs indistinguishable from expert human craftsmanship.</p>
-          <div class="ai-feats reveal d3">
-            <div class="ai-feat"><div class="ai-feat-ic">&#128161;</div><div class="ai-feat-text"><strong>Generative UI Systems</strong><span>Fully responsive, accessible design systems from a single creative brief.</span></div></div>
-            <div class="ai-feat"><div class="ai-feat-ic">&#128202;</div><div class="ai-feat-text"><strong>Adaptive Brand Intelligence</strong><span>AI that learns your brand language and maintains visual consistency at scale.</span></div></div>
-            <div class="ai-feat"><div class="ai-feat-ic">&#9889;</div><div class="ai-feat-text"><strong>Real-Time Iteration</strong><span>Creative briefs transformed into flawless outcomes.</span></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+            <div class="lantern-float absolute top-[15%] left-[8%] text-5xl opacity-60">🏮</div>
+            <div class="lantern-float absolute bottom-[20%] right-[10%] text-4xl opacity-50" style="animation-delay: 1.5s;">🏮</div>
+        </section>
 
-  <div class="divider"></div>
+        <!-- SECTION 1: WHAT IS EID UL-ADHA? -->
+        <section class="py-28 px-6 md:px-16 relative islamic-pattern-overlay">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center cinematic-reveal">
+                    <span class="gold-text text-sm tracking-[0.2em]">SACRED TRADITION</span>
+                    <h2 class="text-4xl md:text-6xl cursive-heading gold-text mt-3">The Essence of Devotion</h2>
+                    <div class="w-28 h-[2px] bg-gradient-to-r from-transparent via-[#d4a94d] to-transparent mx-auto my-6"></div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 mt-16">
+                    <div class="glass-card p-8 cinematic-reveal">
+                        <div class="arabic-font text-3xl gold-text mb-5">﴿ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ ﴾</div>
+                        <p class="text-gray-300 leading-loose text-lg">Eid ul-Adha, the "Festival of Sacrifice," honors Prophet Ibrahim's (AS) absolute submission to Allah. When commanded to sacrifice his son, his unwavering faith transformed into divine mercy — a ram replaced Ismail (AS).</p>
+                    </div>
+                    <div class="glass-card p-8 cinematic-reveal">
+                        <div class="flex gap-5">
+                            <span class="text-5xl">🤍</span>
+                            <div><h3 class="text-2xl gold-text font-bold">Spiritual Lesson</h3><p class="text-gray-300 mt-3 text-lg">True sacrifice isn't about loss, but surrendering what we hold dearest for Allah's pleasure.</p></div>
+                        </div>
+                        <div class="mt-8 p-5 border-l-4 border-[#d4a94d] bg-black/30 rounded-r-2xl"><p class="italic text-[#f2d6a2] text-lg">"Indeed, Allah is with the patient." (Qur'an 2:153)</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <section id="contact">
-    <div class="inner">
-      <div class="contact-wrap">
-        <div class="sec-label reveal" style="justify-content:center">Contact</div>
-        <h2 class="sec-title reveal d1">Let's Build Something <em>Extraordinary</em></h2>
-        <p class="sec-desc reveal d2" style="margin:0 auto">Ready to accelerate your digital transformation? Reach out to our team and let's explore what's possible together.</p>
-        <div class="c-grid">
-          <div class="c-card reveal d2"><span class="c-icon">&#9993;</span><div class="c-type">Email</div><div class="c-val">NafeesTec82@gmail.com</div></div>
-          <div class="c-card reveal d3"><span class="c-icon">&#127760;</span><div class="c-type">Social Media Platform </div><div class="c-val">  on Instagram, twiter X, youtube and other Platforms @Nafeestechdeveloper
-          </div></div>
-          <div class="c-card reveal d4"><span class="c-icon">&#128222;</span><div class="c-type"> Contact with us in watsapp </div><div class="c-val"> 91 9453166934 </div></div>
-        </div>
-      </div>
-    </div>
-  </section>
+        <!-- SECTION 2: REALISTIC CAMEL CARAVAN EFFECT (NON-BLOCKING SCROLL) -->
+        <section class="py-28 bg-black/80 relative overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://images.pexels.com/photos/1308940/desert-dunes-sand-1308940.jpeg?auto=compress&cs=tinysrgb&w=1600')] bg-cover bg-fixed opacity-10"></div>
+            <div class="max-w-6xl mx-auto px-6 relative z-10">
+                <h2 class="text-5xl md:text-7xl cursive-heading gold-text text-center cinematic-reveal">Story of Ibrahim (AS)</h2>
+                
+                <!-- Camel Caravan - Does not block scroll -->
+                <div class="camel-caravan-container cinematic-reveal" id="camelTrigger">
+                    <canvas id="camelCanvas" width="1200" height="450"></canvas>
+                </div>
+                
+                <div class="space-y-28 mt-8">
+                    <div class="glass-card p-10 cinematic-reveal text-center">
+                        <span class="text-6xl block mb-5">🌙✨</span>
+                        <h3 class="text-3xl gold-text mb-4">The Divine Vision</h3>
+                        <p class="text-gray-200 text-lg max-w-3xl mx-auto">Prophet Ibrahim saw a recurring dream instructing him to sacrifice his son. In prophetic tradition, dreams of prophets are revelation.</p>
+                    </div>
+                    <div class="glass-card p-10 cinematic-reveal text-center">
+                        <span class="text-6xl block mb-5">🕊️💬</span>
+                        <h3 class="text-3xl gold-text mb-4">The Conversation with Ismail</h3>
+                        <p class="text-gray-200 text-lg max-w-3xl mx-auto">"O my father, do as you are commanded. You will find me, insha'Allah, among the patient." A moment of absolute devotion.</p>
+                    </div>
+                    <div class="glass-card p-10 cinematic-reveal text-center">
+                        <span class="text-6xl block mb-5">🐏🤲</span>
+                        <h3 class="text-3xl gold-text mb-4">The Miracle of Sacrifice</h3>
+                        <p class="text-gray-200 text-lg max-w-3xl mx-auto">As Ibrahim placed the knife, Allah replaced his son with a magnificent ram. Willingness and faith are more precious than blood.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <footer>
-    <span class="foot-brand">NafeesTechDeveloper</span>
-    <span>Founded by Mohd Wali Khan &nbsp;&#9670;&nbsp; &copy; </span>
-    <span style="letter-spacing:1px">Designed for the Future</span>
-  </footer>
+        <!-- SECTION 3: QURBANI EXPLAINED -->
+        <section id="nextSection" class="py-28 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center cinematic-reveal"><h2 class="text-4xl md:text-6xl cursive-heading gold-text">Qurbani: The Act of Giving</h2><p class="mt-5 text-[#cfd8dc] text-xl max-w-3xl mx-auto">One third for family, one third for friends, one third for the needy.</p></div>
+                <div class="grid md:grid-cols-3 gap-8 mt-20">
+                    <div class="glass-card p-8 text-center glow-hover"><div class="text-6xl mb-5">❤️‍🔥</div><h3 class="text-2xl gold-text mb-3">Faith</h3><p class="text-gray-300">Strengthening trust in Allah through sincere sacrifice.</p></div>
+                    <div class="glass-card p-8 text-center glow-hover"><div class="text-6xl mb-5">🍖🍛</div><h3 class="text-2xl gold-text mb-3">Charity</h3><p class="text-gray-300">Feeding the less fortunate, spreading joy and nourishment.</p></div>
+                    <div class="glass-card p-8 text-center glow-hover"><div class="text-6xl mb-5">🤝🌍</div><h3 class="text-2xl gold-text mb-3">Unity</h3><p class="text-gray-300">Global Muslim brotherhood, compassion, and shared remembrance.</p></div>
+                </div>
+            </div>
+        </section>
 
-  <script>
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+        <!-- SECTION 4: DUA SLIDER -->
+        <section class="py-32 relative overflow-hidden">
+            <div class="absolute inset-0 islamic-pattern-overlay opacity-10"></div>
+            <div class="relative z-20 max-w-4xl mx-auto text-center px-6">
+                <div class="glass-card py-16 px-8 border border-[#d4a94d]/50 dua-card">
+                    <h2 class="text-4xl md:text-5xl gold-text cursive-heading mb-4">Blessings & Supplications</h2>
+                    <div id="duaContainer" class="transition-all duration-500 min-h-[380px] flex flex-col justify-center">
+                        <div class="arabic-font text-3xl md:text-5xl gold-text mb-6 leading-relaxed" id="duaArabic">تَقَبَّلَ اللَّهُ مِنَّا وَمِنكُم</div>
+                        <div class="text-xl md:text-2xl text-[#f2d6a2] font-light italic mb-4" id="duaTransliteration">Taqabbal Allahu minna wa minkum</div>
+                        <div class="text-gray-300 max-w-xl mx-auto leading-relaxed text-lg" id="duaTranslation">May Allah accept (this worship) from us and from you.</div>
+                    </div>
+                    <div class="flex justify-center gap-6 mt-12 flex-wrap">
+                        <button id="prevDua" class="px-6 py-2 rounded-full border border-[#d4a94d] text-[#d4a94d] hover:bg-[#d4a94d]/20 transition">⟵ Previous</button>
+                        <button id="nextDua" class="px-6 py-2 rounded-full border border-[#d4a94d] text-[#d4a94d] hover:bg-[#d4a94d]/20 transition">Next ⟶</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 60) {
-        nav.style.padding = '12px 64px';
-        nav.style.background = 'rgba(0,0,0,0.92)';
-      } else {
-        nav.style.padding = '';
-        nav.style.background = 'rgba(0,0,0,0.65)';
-      }
-    }, { passive: true });
-  </script>
+        <!-- SECTION 5: PREMIUM EID CARD GENERATOR (RESPONSIVE + FIXED SIZE ON DOWNLOAD) -->
+        <section class="py-28 bg-black/90">
+            <div class="max-w-2xl mx-auto px-4 sm:px-6 text-center">
+                <h2 class="text-4xl md:text-5xl gold-text cursive-heading">💌 Personalized Eid Card</h2>
+                <div class="glass-card p-6 md:p-10 mt-10">
+                    <input type="text" id="userName" placeholder="Enter your blessed name..." class="w-full p-4 rounded-2xl bg-black/60 border border-[#d4a94d] text-[#f2d6a2] focus:outline-none focus:ring-2 focus:ring-[#d4a94d] text-center text-base md:text-lg">
+                    <textarea id="customMessage" rows="2" placeholder="May Allah bless you and your family." class="w-full mt-4 p-4 rounded-2xl bg-black/60 border border-[#d4a94d] text-[#f2d6a2] focus:outline-none focus:ring-2 focus:ring-[#d4a94d] text-center"></textarea>
+                    <div class="flex flex-wrap gap-4 justify-center mt-6">
+                        <select id="cardStyle" class="bg-black/60 border border-[#d4a94d] rounded-full px-4 py-2 text-[#d4a94d]">
+                            <option value="gold">Golden Classic</option>
+                            <option value="emerald">Emerald Blessing</option>
+                            <option value="ruby">Ruby Devotion</option>
+                        </select>
+                        <button id="generateCardBtn" class="btn-gold rounded-full px-8 md:px-10 py-3 text-white transition-all duration-300 text-lg font-medium relative overflow-hidden group">
+                            <span class="relative z-10 flex items-center gap-3">✨ Generate Card ✨</span>
+                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-700">
+                                <div class="absolute top-0 -left-full w-[200%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent rotate-12 animate-[shine_2s_linear_infinite]"></div>
+                            </div>
+                        </button>
+                    </div>
+                    <div id="generatedCard" class="mt-10 p-4 md:p-8 rounded-2xl premium-eid-card hidden transition-all duration-500 relative overflow-hidden">
+                        <div class="relative z-10 flex flex-col items-center justify-center min-h-[320px]">
+                            <!-- Default Empty State -->
+                            <div id="emptyCardState" class="text-center transition-all duration-500">
+                                <div class="text-7xl mb-5 animate-pulse">✨</div>
+                                <h3 class="text-2xl md:text-3xl gold-text cursive-heading mb-4">Generate Your Premium Eid Card</h3>
+                                <p class="text-[#f2d6a2] max-w-md mx-auto leading-relaxed text-base md:text-lg">Enter your blessed name and create a luxurious cinematic Eid ul-Adha greeting card filled with prayers, elegance, and نور.</p>
+                                <div class="mt-8 flex justify-center gap-4 text-4xl opacity-80">🌙 🏮 🕋 🐏</div>
+                            </div>
+                            <!-- Generated Card Content (always consistent dimensions) -->
+                            <div id="actualCardContent" class="hidden text-center transition-all duration-700 bg-black rounded-3xl p-6 md:p-8 w-full max-w-md md:max-w-lg mx-auto">
+                                <div id="eidArabicText" class="arabic-font text-4xl md:text-6xl silk-glow mb-4">عيد مبارك</div>
+                                <div class="text-2xl md:text-3xl mt-3 text-[#d4a94d] font-bold" id="cardUserNameDisplay">Beloved Guest</div>
+                                <div class="text-base md:text-xl mt-5 text-[#f2d6a2] font-light leading-relaxed max-w-lg mx-auto" id="cardMessageDisplay">May Allah bless you and your family.</div>
+                                <div class="mt-6 flex justify-center gap-4 text-3xl">🕋 ✨ 🐏</div>
+                                <button id="downloadCard" class="mt-8 text-sm border border-[#d4a94d] px-6 py-2 rounded-full gold-text hover:bg-[#d4a94d]/20 transition">📸 Save as Image</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="border-t border-[#d4a94d]/30 py-12 text-center text-gray-400 text-sm px-4">
+            <div class="text-4xl mb-4 inline-block">🌙</div>
+            <p>With warm wishes from NafeesTech / dev_N_tech & Team 💻❤️<br>Celebrating faith, sacrifice, unity, and togetherness this Eid. 🌙🕌</p>
+        </footer>
+    </main>
+
+    <script>
+        // Smooth Scroll with Lenis - NO BLOCKING
+        const lenis = new Lenis({ duration: 1.2, smoothWheel: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+        gsap.registerPlugin(ScrollTrigger);
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 1000);
+            }, 900);
+        });
+
+        // Scroll Reveal
+        const revealItems = document.querySelectorAll('.cinematic-reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.2 });
+        revealItems.forEach(el => revealObserver.observe(el));
+
+        document.getElementById('exploreBtn')?.addEventListener('click', () => lenis.scrollTo('#camelTrigger'));
+        document.getElementById('scrollIndicator')?.addEventListener('click', () => lenis.scrollTo('#camelTrigger'));
+
+        // ========== REALISTIC CAMEL CARAVAN (PURE VISUAL, NO SCROLL BLOCK) ==========
+        const camelCanvas = document.getElementById('camelCanvas');
+        let ctx = camelCanvas.getContext('2d');
+        let cWidth = camelCanvas.clientWidth;
+        let cHeight = camelCanvas.clientHeight;
+        let camelX = -150;
+        let caravanPlaying = true;  // Always animate visually but doesn't block scrolling
+        let legSwing = 0;
+        let dustParticles = [];
+        let animationLoopRunning = true;
+        let caravanFinished = false;
+
+        function resizeCamelCanvas() {
+            cWidth = camelCanvas.parentElement.clientWidth;
+            cHeight = camelCanvas.parentElement.clientHeight;
+            camelCanvas.width = cWidth;
+            camelCanvas.height = cHeight;
+            drawDesertBase();
+        }
+
+        function drawDesertBase() {
+            if (!ctx) return;
+            const skyGrad = ctx.createLinearGradient(0, 0, 0, cHeight * 0.6);
+            skyGrad.addColorStop(0, '#ff9a4a');
+            skyGrad.addColorStop(0.5, '#e87a2a');
+            skyGrad.addColorStop(1, '#b85a1a');
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, cWidth, cHeight);
+            ctx.beginPath();
+            ctx.arc(cWidth - 60, 55, 35, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffdd88';
+            ctx.fill();
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = '#ffaa44';
+            const grad = ctx.createLinearGradient(0, cHeight * 0.5, 0, cHeight);
+            grad.addColorStop(0, '#c98a3e');
+            grad.addColorStop(1, '#8a5a2a');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, cHeight * 0.55, cWidth, cHeight * 0.45);
+            ctx.beginPath();
+            ctx.moveTo(0, cHeight * 0.65);
+            ctx.quadraticCurveTo(cWidth * 0.3, cHeight * 0.55, cWidth * 0.5, cHeight * 0.68);
+            ctx.quadraticCurveTo(cWidth * 0.7, cHeight * 0.72, cWidth, cHeight * 0.62);
+            ctx.lineTo(cWidth, cHeight);
+            ctx.lineTo(0, cHeight);
+            ctx.fillStyle = '#b87333';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(0, cHeight * 0.75);
+            ctx.quadraticCurveTo(cWidth * 0.4, cHeight * 0.68, cWidth * 0.8, cHeight * 0.78);
+            ctx.lineTo(cWidth, cHeight);
+            ctx.lineTo(0, cHeight);
+            ctx.fillStyle = '#9a6a3a';
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+
+        function drawRealisticCamel(x, legAngle) {
+            if (!ctx) return;
+            ctx.save();
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = "rgba(0,0,0,0.5)";
+            const baseY = cHeight * 0.72;
+            ctx.fillStyle = '#c9a87c';
+            ctx.beginPath();
+            ctx.ellipse(x + 35, baseY - 12, 25, 18, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(x + 35, baseY - 25, 15, 12, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#b8925e';
+            ctx.beginPath();
+            ctx.moveTo(x + 50, baseY - 18);
+            ctx.lineTo(x + 65, baseY - 38);
+            ctx.lineTo(x + 60, baseY - 42);
+            ctx.lineTo(x + 45, baseY - 22);
+            ctx.fill();
+            ctx.fillStyle = '#c9a87c';
+            ctx.beginPath();
+            ctx.ellipse(x + 65, baseY - 40, 12, 10, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#a0784a';
+            ctx.beginPath();
+            ctx.moveTo(x + 72, baseY - 48);
+            ctx.lineTo(x + 78, baseY - 52);
+            ctx.lineTo(x + 72, baseY - 44);
+            ctx.fill();
+            ctx.fillStyle = '#2a1a0a';
+            ctx.beginPath();
+            ctx.arc(x + 70, baseY - 42, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#b8925e';
+            const legOffset = Math.sin(legAngle) * 6;
+            ctx.fillRect(x + 18, baseY - 10, 8, 18 + legOffset);
+            ctx.fillRect(x + 28, baseY - 10, 8, 18 - legOffset);
+            ctx.fillRect(x + 45, baseY - 10, 8, 18 - legOffset);
+            ctx.fillRect(x + 55, baseY - 10, 8, 18 + legOffset);
+            ctx.beginPath();
+            ctx.moveTo(x + 15, baseY - 18);
+            ctx.quadraticCurveTo(x + 5, baseY - 12, x + 8, baseY - 5);
+            ctx.fillStyle = '#8a6a3a';
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function drawCamelCaravan() {
+            if (!ctx) return;
+            drawDesertBase();
+            drawRealisticCamel(camelX, legSwing);
+            drawRealisticCamel(camelX + 75, legSwing + 1);
+            drawRealisticCamel(camelX + 140, legSwing + 0.5);
+            dustParticles.forEach((p, i) => {
+                ctx.fillStyle = `rgba(200, 140, 70, ${p.life})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+                p.x -= 2;
+                p.life -= 0.02;
+                if (p.life <= 0 || p.x < 0) dustParticles.splice(i, 1);
+            });
+            if (caravanPlaying && !caravanFinished && Math.random() > 0.6) {
+                dustParticles.push({ x: camelX + 70, y: cHeight * 0.74, radius: Math.random() * 4 + 2, life: 0.8 });
+            }
+        }
+
+        function animateCamelScene() {
+            if (!ctx) return;
+            legSwing += 0.15;
+            drawCamelCaravan();
+            if (caravanPlaying && !caravanFinished) {
+                camelX += 2;
+                if (camelX > cWidth + 200) {
+                    caravanFinished = true;
+                    caravanPlaying = true; // keep animating at end but no further movement
+                }
+            }
+            if (animationLoopRunning) requestAnimationFrame(animateCamelScene);
+        }
+
+        // Start caravan movement automatically when canvas visible, but does not block scroll at all
+        const camelObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !caravanFinished && camelX < cWidth + 100) {
+                    caravanPlaying = true;
+                }
+            });
+        }, { threshold: 0.2 });
+        camelObserver.observe(document.getElementById('camelTrigger'));
+        
+        window.addEventListener('resize', () => { resizeCamelCanvas(); });
+        resizeCamelCanvas();
+        animateCamelScene();
+
+        // Particles Background (unchanged)
+        const pCanvas = document.getElementById('particleCanvas');
+        const pCtx = pCanvas.getContext('2d');
+        let particles = [];
+        function resizeParticles() { pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeParticles);
+        resizeParticles();
+        for (let i = 0; i < 150; i++) {
+            particles.push({ x: Math.random() * pCanvas.width, y: Math.random() * pCanvas.height, radius: Math.random() * 2 + 0.5, alpha: Math.random() * 0.5, speedX: (Math.random() - 0.5) * 0.2, speedY: (Math.random() - 0.5) * 0.1 });
+        }
+        function drawParticles() {
+            pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+            pCtx.fillStyle = "#d4a94d";
+            particles.forEach(p => {
+                pCtx.globalAlpha = p.alpha * 0.6;
+                pCtx.beginPath();
+                pCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                pCtx.fill();
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if (p.x < 0) p.x = pCanvas.width;
+                if (p.x > pCanvas.width) p.x = 0;
+                if (p.y < 0) p.y = pCanvas.height;
+                if (p.y > pCanvas.height) p.y = 0;
+            });
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+
+        // Mouse Glow
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.getElementById('mouseGlow');
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        // Dua Slider
+        const duas = [
+            { arabic: "تَقَبَّلَ اللَّهُ مِنَّا وَمِنكُم", translit: "Taqabbal Allahu minna wa minkum", translation: "May Allah accept from us and from you. Eid Mubarak!" },
+            { arabic: "اللَّهُمَّ أَهْلِلْهُ عَلَيْنَا بِالْيُمْنِ وَالإِيمَانِ", translit: "Allahumma ahlilhu 'alayna bil-yumni wal-iman", translation: "O Allah, bring this moon upon us with blessings and faith." },
+            { arabic: "رَبَّنَا تَقَبَّلْ مِنَّا ۖ إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ", translit: "Rabbana taqabbal minna innaka Antas Samee'ul Aleem", translation: "Our Lord, accept from us. You are the All-Hearing, All-Knowing." }
+        ];
+        let duaIndex = 0;
+        function updateDua() { document.getElementById('duaArabic').innerText = duas[duaIndex].arabic; document.getElementById('duaTransliteration').innerText = duas[duaIndex].translit; document.getElementById('duaTranslation').innerHTML = `✨ ${duas[duaIndex].translation} ✨`; }
+        document.getElementById('nextDua').onclick = () => { duaIndex = (duaIndex + 1) % duas.length; updateDua(); };
+        document.getElementById('prevDua').onclick = () => { duaIndex = (duaIndex - 1 + duas.length) % duas.length; updateDua(); };
+        updateDua();
+
+        // Eid Card Generator (Fully responsive, download fixed size consistency)
+        const genBtn = document.getElementById('generateCardBtn');
+        const cardDiv = document.getElementById('generatedCard');
+        const nameInput = document.getElementById('userName');
+        const customMsg = document.getElementById('customMessage');
+        const styleSelect = document.getElementById('cardStyle');
+        const cardNameSpan = document.getElementById('cardUserNameDisplay');
+        const cardMsgSpan = document.getElementById('cardMessageDisplay');
+
+        genBtn.addEventListener('click', () => {
+            let userName = nameInput.value.trim() || "Beloved Guest";
+            let message = customMsg.value.trim() || "May Allah bless you with endless joy, sacrifice & mercy. Eid Mubarak! 🕋🐏✨";
+            cardNameSpan.innerText = userName;
+            cardMsgSpan.innerText = message;
+            let style = styleSelect.value;
+            if (style === 'emerald') cardDiv.style.background = "linear-gradient(145deg, #103828, #051a0c)";
+            else if (style === 'ruby') cardDiv.style.background = "linear-gradient(145deg, #3d1a1a, #1c0808)";
+            else cardDiv.style.background = "linear-gradient(145deg, #1f1a10, #0b0802)";
+            cardDiv.classList.remove('hidden');
+            document.getElementById("emptyCardState").classList.add("hidden");
+            document.getElementById("actualCardContent").classList.remove("hidden");
+            gsap.fromTo("#actualCardContent", { opacity: 0, y: 40, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: "power4.out" });
+            for (let i = 0; i < 30; i++) { let l = document.createElement('div'); l.innerHTML = '🏮'; l.style.cssText = `position:fixed; left:${Math.random() * 100}%; top:-20px; font-size:${Math.random() * 30 + 18}px; opacity:0.9; z-index:999; transition:all 2s ease-out; pointer-events:none;`; document.body.appendChild(l); setTimeout(() => { l.style.transform = `translateY(${window.innerHeight + 100}px) rotate(${Math.random() * 40 - 20}deg)`; l.style.opacity = '0'; setTimeout(() => l.remove(), 2000); }, 10); }
+        });
+
+        document.getElementById('downloadCard').addEventListener('click', async () => {
+            const card = document.getElementById('actualCardContent');
+            await document.fonts.ready;
+            try {
+                const canvas = await html2canvas(card, { scale: 3, useCORS: true, backgroundColor: "#000000", logging: false });
+                canvas.toBlob(async (blob) => {
+                    const file = new File([blob], "Eid_Mubarak_Card.png", { type: "image/png" });
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "Eid Mubarak Card", text: "✨ Eid ul-Adha Mubarak ✨" }); } 
+                    else { const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Eid_Mubarak_Card.png"; link.click(); }
+                }, "image/png");
+            } catch (err) { console.log(err); alert("Image export failed"); }
+        });
+
+        ScrollTrigger.create({ trigger: "body", start: "top top", end: "bottom bottom", onUpdate: (self) => { document.body.style.background = `radial-gradient(circle at 30% ${self.progress * 100}%, #0a0702, #030101)`; } });
+    </script>
 </body>
 </html>
+```
